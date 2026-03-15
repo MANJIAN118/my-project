@@ -5,9 +5,12 @@
   // ===== 0. 【关键修正】加载外部 CSS 文件 =====
   // 注意：这里的路径和仓库名保持一致
   const cssLink = document.createElement('link');
-  cssLink.rel = 'stylesheet';
-  cssLink.href = 'https://cdn.jsdelivr.net/gh/MANJIAN118/my-project/weverse-app/weverse-app.css';
-  document.head.appendChild(cssLink);
+cssLink.rel = 'stylesheet';
+// 原来的错误路径：
+// cssLink.href = 'https://cdn.jsdelivr.net/gh/MANJIAN118/my-project/weverse-app/weverse-app.css';
+// 改成正确的根目录路径：
+cssLink.href = 'https://cdn.jsdelivr.net/gh/MANJIAN118/my-project/weverse-app.css';
+document.head.appendChild(cssLink);
 
   // ===== 1. 创建手机外壳容器 =====
   const phoneContainer = document.createElement('div');
