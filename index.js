@@ -134,19 +134,32 @@ document.head.appendChild(cssLink);
   updateTime();
   setInterval(updateTime, 30000);
 
-  // ===== 4. 【关键修正】绑定显隐切换按钮 =====
-  // 注意：这里的事件名 'Weverse' 必须和你酒馆助手里的按钮名完全一样！
-  if (typeof getButtonEvent === 'function') {
-    const btnEvent = getButtonEvent();
-    if (btnEvent) {
-      btnEvent.on('Weverse', () => {
-        const el = document.getElementById('wv-phone-container');
-        if (el) {
-          el.style.display = el.style.display === 'none' ? 'block' : 'none';
-        }
-      });
-    }
+  // ===== 4. 按钮显隐切换（兜底方案：手动创建全局函数 + 备用按钮）=====
+// 全局函数，供酒馆调用
+window.toggleWeverse = function() {
+  const el = document.getElementById('wv-phone-container');
+  if (el) {
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
   }
+};
+
+// 备用方案：如果酒馆的 getButtonEvent 不存在，自动创建一个悬浮按钮
+if (typeof getButtonEvent !== 'function') {
+  const toggleBtn = document.createElement('button');
+  toggleBtn.style.position = 'fixed';
+  toggleBtn.style.top = '20px';
+  toggleBtn.style.left = '20px';
+  toggleBtn.style.zIndex = '999999';
+  toggleBtn.style.padding = '8px 12px';
+  toggleBtn.style.background = '#7200d3';
+  toggleBtn.style.color = '#fff';
+  toggleBtn.style.border = 'none';
+  toggleBtn.style.borderRadius = '4px';
+  toggleBtn.style.cursor = 'pointer';
+  toggleBtn.textContent = 'Weverse 显隐';
+  toggleBtn.onclick = window.toggleWeverse;
+  document.body.appendChild(toggleBtn);
+}
 
   // ===== 5. 可拖拽功能 =====
   let isDragging = false;
